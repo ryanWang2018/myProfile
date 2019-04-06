@@ -4,12 +4,12 @@ class ErrorMessage extends Component {
     return (
       <React.Fragment>
         <div
-          onChange={() =>
-            this.props.onChange(
-              this.props.error.content,
-              this.props.error.shown
-            )
-          }
+          // onChange={() =>
+          //   this.props.onChange(
+          //     this.props.error.content,
+          //     this.props.error.shown
+          //   )
+          // }
           className={this.props.error.shown}
           role="alert"
           value="error"

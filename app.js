@@ -20,9 +20,10 @@ const Image = require("./backend/models/photos");
 
 // global variables ------------------------------------------
 const app = express();
+
 const router = express.Router();
-app.use("/upload", express.static("uploads"));
 // this is our MongoDB database
+
 const dbRoute =
   "mongodb+srv://ryan:ryan1@myinfo-diuqq.mongodb.net/AsianGourmet";
 // connects our back end code with the database
@@ -40,9 +41,6 @@ app.use(logger("dev"));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
-// memcache --------------------------------------
-
-// security --------------------------------------
 function generateSalt() {
   return crypto.randomBytes(16).toString("base64");
 }
@@ -103,11 +101,6 @@ app.use(function(req, res, next) {
     })
   );
   console.log("HTTP request", username, req.method, req.url, req.body);
-  next();
-});
-
-app.use(function(req, res, next) {
-  req.room = "room" in req.session ? req.session.room : null;
   next();
 });
 
@@ -194,6 +187,28 @@ router.post("/signin/", checkUsername, function(req, res, next) {
   });
 });
 
+router.post("/upload/", function(req, res) {
+  //let pageNum = req.param.pagenum;
+  let name = req.body.name;
+  let price = req.body.price;
+  let description = req.body.description;
+  let mealType = req.body.meal;
+  let url = req.body.url;
+  Image.insertMany(
+    {
+      Name: name,
+      Price: price,
+      Description: description,
+      URL: url,
+      MealType: mealType
+    },
+    function(err, insertedRoom) {
+      if (err) return res.status(500).end("Failed creating new room");
+      return res.json(insertedRoom[0]);
+    }
+  );
+});
+
 router.get("/signout/", isAuthenticated, function(req, res, next) {
   req.session.destroy();
 
@@ -228,6 +243,14 @@ router.get("/user", function(req, res, next) {
   } else {
     return res.status(401).end("Not sign in");
   }
+});
+
+var memjs = require("memjs");
+
+var mc = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
+  failover: true, // default: false
+  timeout: 1, // default: 0.5 (seconds)
+  keepAlive: true // default: false
 });
 
 // append /api for our http requests

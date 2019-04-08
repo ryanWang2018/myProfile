@@ -2,13 +2,31 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let photeSchema = new Schema({
-  imageName: {
+  Name: {
     type: String,
     default: "none",
     required: true
   },
-  imageData: {
+  Price: {
     type: String,
+    default: "none",
+    required: false
+  },
+
+  MealType: {
+    type: String,
+    default: "none",
+    required: true
+  },
+
+  Description: {
+    type: String,
+    default: "none",
+    required: true
+  },
+  URL: {
+    type: String,
+    default: "none",
     required: true
   }
 });

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import "./uploadForm.css";
 import ErrorMessage from "./errorMessage.jsx";
+import axios from "axios";
+import api from "./api.js";
+
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/ryanprofile/upload";
+const CLOUDINARY_URL_ORESET = "lfgumija";
 
 class Upload extends Component {
   constructor(props) {
@@ -10,13 +15,24 @@ class Upload extends Component {
       name: "",
       price: "",
       description: "",
-      error: ""
+      error: "",
+      fileData: null,
+      photo_url: "",
+      mealType: ""
     };
   }
 
   handleAddImage = event => {
     this.setState({
       file: URL.createObjectURL(event.target.files[0])
+    });
+
+    let file = event.target.files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_URL_ORESET);
+    this.setState({
+      fileData: formData
     });
   };
 
@@ -25,9 +41,14 @@ class Upload extends Component {
     //
     const name = event.target.name;
     const value = event.target.value;
+
     this.setState({
       [name]: value
     });
+  };
+
+  handlerMealType = e => {
+    this.setState({ mealType: e.target.value });
   };
 
   submitPicture = even => {
@@ -39,13 +60,38 @@ class Upload extends Component {
       );
     } else {
       this.handleOnError("", "");
-      api
-        .post("/upload", formData, config)
+      let pic_url;
+      console.log(this.state);
+      //save the image to the cloudinary and get the result picute URL
+      axios({
+        url: CLOUDINARY_URL,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: this.state.fileData
+      })
         .then(res => {
-          console.log("file is uploaded");
+          this.setState({ photo_url: res.data.secure_url });
         })
-        .catch(error => {
-          console.log(error);
+        .catch(err => {
+          console.log(err);
+        });
+
+      // save the url and picture info to mongodb
+      api
+        .post("/upload/", {
+          url: this.state.photo_url,
+          meal: this.state.mealType,
+          name: this.state.name,
+          price: this.state.price,
+          description: this.state.description
+        })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   };
@@ -61,17 +107,16 @@ class Upload extends Component {
     return (
       <div>
         <ErrorMessage onChange={this.handleOnError} error={this.state.error} />
-        <div className="container contact-form">
-          <div className="contact-image">
-            <img src={this.state.file} alt="rocket_contact" />
+        <div className="upload_form_container">
+          <div className="image_content">
+            <img className="img_box" src={this.state.file} alt="food image" />
           </div>
-          <form enctype="multipart/form-data">
-            <input
-              type="file"
-              onChange={this.handleAddImage}
-              className="addImage"
-            />
-          </form>
+
+          <input
+            type="file"
+            onChange={this.handleAddImage}
+            className="addImage"
+          />
           <form onSubmit={this.submitPicture}>
             <div className="row">
               <div className="col-md-6">
@@ -100,20 +145,59 @@ class Upload extends Component {
                 <div className="form-group">
                   <textarea
                     name="description"
-                    className="form-control"
+                    className="description_box"
                     placeholder="Description *"
                     onChange={this.handleOnChanges}
                     style={{ width: "100%", height: "150px" }}
                     required
                   />
                 </div>
-                <div className="form-group">
-                  <input
-                    type="submit"
-                    name="btnSubmit"
-                    className="btnContact"
-                    value="Send Message"
-                  />
+
+                <div className="col">
+                  <div
+                    onChange={this.handlerMealType}
+                    className="btn-group btn-group-justified"
+                    data-toggle="buttons"
+                  >
+                    <label className="btn btn-success active">
+                      Breakfast
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option1"
+                        value="Breakfast"
+                        autoComplete="off"
+                      />
+                    </label>
+                    <label className="btn btn-success">
+                      Meal
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option2"
+                        autoComplete="off"
+                        value="Meal"
+                      />
+                    </label>
+                    <label classclass="btn btn-success">
+                      Drink
+                      <input
+                        type="radio"
+                        name="options"
+                        id="option3"
+                        autoComplete="off"
+                        value="Drink"
+                      />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="submit"
+                      name="btnSubmit"
+                      className="btnContact"
+                      value="Send Message"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Credits from "./components/credits";
@@ -8,6 +8,7 @@ import ReactSVG from "react-svg";
 import "./index.css";
 import svg from "./components/svgText.svg";
 import FoodPage from "./components/foodPage.jsx";
+import MainNav from "./components/mainNav.jsx";
 
 class App extends Component {
   constructor(props) {
@@ -34,13 +35,16 @@ class App extends Component {
       );
     } else {
       return (
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/Foods/" component={FoodPage} />
+        <div className="appCss">
+          <MainNav />
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={FoodPage} />
 
-            <Route exact path="/UploadForm/" component={UploadForm} />
-          </Switch>
-        </BrowserRouter>
+              <Route exact path="/UploadForm/" component={UploadForm} />
+            </Switch>
+          </BrowserRouter>
+        </div>
       );
     }
   }

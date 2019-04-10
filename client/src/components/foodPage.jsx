@@ -97,12 +97,25 @@ class FoodPage extends Component {
 
   navHandler = name => {
     if (name == "Breakfast") {
-      this.setState({ Breakfast: "focused", Meal: "", Drink: "" });
+      this.setState({
+        Breakfast: "selectNav",
+        Meal: "",
+        Drink: ""
+      });
     } else if (name == "Meal") {
-      this.setState({ Breakfast: "", Meal: "focused", Drink: "" });
+      this.setState({
+        Breakfast: "",
+        Meal: "selectNav",
+        Drink: ""
+      });
     } else {
-      this.setState({ Breakfast: "", Meal: "", Drink: "focused" });
+      this.setState({
+        Breakfast: "",
+        Meal: "",
+        Drink: "selectNav"
+      });
     }
+    console.log(name);
   };
 
   componentDidMount() {

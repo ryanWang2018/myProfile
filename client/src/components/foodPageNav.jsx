@@ -6,33 +6,34 @@ class FoodPageNav extends Component {
     this.state = {};
   }
 
-  handlerOnClick(name) {
-    return name;
-  }
+  handlerOnClick = name => {
+    this.props.onChange(name);
+  };
 
   render() {
     return (
-      <div id="container">
-        <ul>
-          <li
-            onClick={() => this.props.onChange("Breakfast")}
-            className={this.props.style.Breakfast}
-          >
-            Breakfast
-          </li>
-          <li
-            onClick={() => this.props.onChange("Meal")}
-            className={this.props.style.Meal}
-          >
-            Meal
-          </li>
-          <li
-            onClick={() => this.props.onChange("Drink")}
-            className={this.props.style.Drink}
-          >
-            Drink
-          </li>
-        </ul>
+      <div className="subNavContainer">
+        <div
+          id="bf"
+          onClick={() => this.handlerOnClick("Breakfast")}
+          className={"subNav " + this.props.style.Breakfast}
+        >
+          Breakfast
+        </div>
+        <div
+          id="ml"
+          onClick={() => this.handlerOnClick("Meal")}
+          className={"subNav " + this.props.style.Meal}
+        >
+          Meal
+        </div>
+        <div
+          id="dk"
+          onClick={() => this.handlerOnClick("Drink")}
+          className={"subNav " + this.props.style.Drink}
+        >
+          Drink
+        </div>
       </div>
     );
   }

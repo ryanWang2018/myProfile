@@ -1,25 +1,25 @@
-ul {
-  list-style: none;
-  display: inline-block;
+.subNavContainer {
+  display: flex;
+  flex-direction: row;
 }
 
-ul li {
-  display: inline-block;
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: #eee;
-  color: #7b8585;
-
-  transition: 0.3s;
+.subNav {
+  border-bottom: 1px solid #111111;
+  text-align: center;
+  width: 80px;
 }
 
-ul li:hover {
-  background-color: #beecea;
+.subNav:hover {
+  border-top: 1px solid #979292a6;
+  border-left: 1px solid #979292a6;
+  border-right: 1px solid #979292a6;
 }
 
-ul li.focused {
-  color: #fff;
-  background-color: #41c7c2;
+.selectNav {
+  border-bottom: 1px solid #ffffff;
+  border-top: 1px solid #111111;
+  border-left: 1px solid #111111;
+  border-right: 1px solid #111111;
 }
 
 p {

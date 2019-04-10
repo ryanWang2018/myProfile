@@ -1,0 +1,6 @@
+.Container {
+  max-width: 90%;
+  border: 3px solid green;
+  align-self: center;
+  margin-left: 40px;
+}

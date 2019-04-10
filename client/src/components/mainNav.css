@@ -1,0 +1,33 @@
+.mainNavContainer {
+  display: flex;
+  flex-direction: column;
+}
+.NavMenu {
+  position: sticky;
+  text-align: center;
+  width: 60px;
+  height: 40px;
+  left: 0px;
+  top: 100px;
+  border: 2px solid blue;
+}
+
+.NavAdmin {
+  position: sticky;
+  text-align: center;
+  width: 60px;
+  height: 40px;
+  left: 0px;
+  top: 170px;
+  border: 2px solid blue;
+}
+
+.NavCalorie {
+  position: sticky;
+  text-align: center;
+  width: 60px;
+  height: 40px;
+  left: 0px;
+  top: 240px;
+  border: 2px solid blue;
+}

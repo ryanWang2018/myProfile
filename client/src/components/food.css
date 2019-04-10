@@ -61,10 +61,12 @@ body {
   position: relative;
   padding-left: 190px;
   margin-bottom: 110px;
+  margin-right: 20px;
 }
 
 .single_menu_list img {
-  max-width: 30%;
+  width: 40%;
+  height: 150px;
   position: absolute;
   left: 0px;
   top: 0;

@@ -118,6 +118,7 @@ let checkUserInputName = function(req, res, next) {
     return res.status(400).end("bad input");
   next();
 };
+
 router.post("/register", checkUserInputName, checkUseremail, function(
   req,
   res,
@@ -187,6 +188,13 @@ router.post("/signin/", checkUsername, function(req, res, next) {
   });
 });
 
+router.get("/Foods/", function(req, res) {
+  Image.find({}).exec(function(err, img) {
+    if (err) return res.status(500).end(err);
+    return res.json(img);
+  });
+});
+
 router.post("/upload/", function(req, res) {
   //let pageNum = req.param.pagenum;
   let name = req.body.name;
@@ -245,13 +253,13 @@ router.get("/user", function(req, res, next) {
   }
 });
 
-var memjs = require("memjs");
+// var memjs = require("memjs");
 
-var mc = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
-  failover: true, // default: false
-  timeout: 1, // default: 0.5 (seconds)
-  keepAlive: true // default: false
-});
+// var mc = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
+//   failover: true, // default: false
+//   timeout: 1, // default: 0.5 (seconds)
+//   keepAlive: true // default: false
+// });
 
 // append /api for our http requests
 app.use("/api", router);

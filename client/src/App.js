@@ -7,12 +7,15 @@ import UploadForm from "./components/uploadForm.jsx";
 import ReactSVG from "react-svg";
 import "./index.css";
 import svg from "./components/svgText.svg";
+import FoodPage from "./components/foodPage.jsx";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      countDown: 1
+      countDown: 1,
+      navOurFood: true,
+      navAdmin: false
     };
   }
 
@@ -31,15 +34,13 @@ class App extends Component {
       );
     } else {
       return (
-        // <Food
-        //   img="http://infinityflamesoft.com/html/restarunt-preview/assets/img/menu/menu-2.jpg"
-        //   name="Chicken Fried Salad"
-        //   price="$45"
-        //   info="Aperiam tempore sit, perferendis numquam repudiandae porro voluptate dicta seape facilis."
-        // />
-        <div>
-          <UploadForm />
-        </div>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/Foods/" component={FoodPage} />
+
+            <Route exact path="/UploadForm/" component={UploadForm} />
+          </Switch>
+        </BrowserRouter>
       );
     }
   }
